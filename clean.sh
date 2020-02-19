@@ -17,6 +17,6 @@ cat $1 \
     | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' \
     | sort \
     | uniq \
-    | grep -v -E "[[:alpha:]]{50}" \
-    | grep -v -E "^.{1,10}$" \
+    | grep -v -E "[[:alnum:]]{15}" \
+    | grep -v -E "^.{1,20}$" \
     | awk '{print length,$0}' | sort -n | awk ' {$1="";print $0}' | cut -f2- -d' '
