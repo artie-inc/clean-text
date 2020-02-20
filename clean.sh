@@ -11,12 +11,15 @@
 
 cat $1 \
     | tr '[:upper:]' '[:lower:]' \
-    | tr -cd '[a-z0-9] \n' \
-    | sed 's/ \+/ /g' \
-    | sed 's/\[//g' | sed 's/\]//g' \
+    | tr "\’" "\'" \
+    | tr -s "\'" \
+    | tr -c "\'[a-z0-9] \n" " " \
+    | sed 's/\[/ /g' | sed 's/\]/ /g' \
     | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' \
+    | sed 's/ \+/ /g' \
     | sort \
     | uniq \
+    | grep -v "http" \
     | grep -v -E "[[:alnum:]]{15}" \
     | grep -v -E "^.{1,20}$" \
     | awk '{print length,$0}' | sort -n | awk ' {$1="";print $0}' | cut -f2- -d' '
